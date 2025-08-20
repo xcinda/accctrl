@@ -1,16 +1,6 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
+import { mysqlTable, mysqlSchema, AnyMySqlColumn, index, foreignKey, int, varchar, timestamp } from "drizzle-orm/mysql-core"
+import { sql } from "drizzle-orm"
 
-import { sql } from "drizzle-orm";
-import { integer } from "drizzle-orm/gel-core";
-import { boolean, index, int, mysqlTable, mysqlTableCreator, timestamp, varchar } from "drizzle-orm/mysql-core";
-
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
 export const opAd = mysqlTable("op_ad", {
 	cislo: int().autoincrement().notNull(),
 	idRole: varchar("id_role", { length: 50 }).notNull().references(() => opRole.idRole),

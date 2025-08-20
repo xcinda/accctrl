@@ -1,4 +1,4 @@
-# Create T3 App
+# Rewrite aplikace pro evidenci přístupů uživtelů
 
 ## TODO
 - [ ] scaffold ui
