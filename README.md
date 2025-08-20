@@ -2,8 +2,8 @@
 
 ## TODO
 - [ ] scaffold ui
-- [ ] create database with data
-- [ ] conect database
+- [x] create database with data
+- [x] conect database
 - [ ] current role view
 - [ ] auth (kerberos?)
 - [ ] role perms and admin
