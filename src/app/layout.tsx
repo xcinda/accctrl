@@ -17,7 +17,7 @@ const geist = Geist({
 function Header(){
 
   return(
-    <div className="xl">Ahoj</div>
+    <nav className="flex flex-row justify-between xl w-full border-b p-4">Ahoj</nav>
   );
 }
 
@@ -26,7 +26,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body><Header/>{children}</body>
+      <body className="">
+        <div className="h-screen flex flex-col">
+          <Header/>
+          <main className="flex-1 overflow-hidden flex w-full justify-center">{children}</main>
+        </div>
+      </body>
     </html>
   );
 }
