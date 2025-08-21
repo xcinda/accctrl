@@ -17,7 +17,15 @@ const geist = Geist({
 function Header(){
 
   return(
-    <nav className="flex flex-row justify-between xl w-full border-b p-4">Ahoj</nav>
+    <nav className="flex flex-row justify-between items-center w-full border-b p-4">
+      <div className="font-bold text-2xl">Správa přístupů</div>
+      <div className="flex flex-row justify-between gap-4">
+        <div>Přehled uživatelů</div>
+        <div>Správa rolí</div>
+        <div>Admin</div>        
+      </div>
+
+    </nav>
   );
 }
 
