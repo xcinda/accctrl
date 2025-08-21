@@ -11,14 +11,12 @@ export default async function HomePage() {
 });
   const role = await db.query.opRole.findMany();
 
-  const users = ['user1','user2','user3','user4']
-
   return (
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10">
         <div id="LevySloupec" className="w-1/4 h-full overflow-hidden flex flex-col">
           <div className="w-full text-center text-xl font-bold pb-3">{user}</div>
           <div className="overflow-scroll flex-1">
-            <UserList users={users}/>
+            <UserList />
           </div>
           <div className="h-20 align-center">
             <Selector/>
