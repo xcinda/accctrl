@@ -25,10 +25,6 @@ export const opAdmin = mysqlTable("op_admin", {
 	idRole: varchar("id_role", { length: 50 }).default('NULL').references(() => opRole.idRole),
 	prikazce: int().default(0),
 	vykonavatel: int().default(0)
-	// Warning: Can't parse bit(1) from database
-	// bit(1)Type: bit(1)("prikazce"),
-	// Warning: Can't parse bit(1) from database
-	// bit(1)Type: bit(1)("vykonavatel"),
 },
 (table) => [
 	index("Cislo").on(table.cislo),
@@ -65,8 +61,6 @@ export const opLidi = mysqlTable("op_lidi", {
 	jmeno: varchar({ length: 50 }).notNull(),
 	prijmeni: varchar({ length: 50 }).notNull(),
 	aktivni: int(),
-	// Warning: Can't parse bit(1) from database
-	// bit(1)Type: bit(1)("aktivni"),
 	osobniCislo: int("osobni_cislo").default('NULL'),
 	datumOdchod: timestamp("datum_odchod", { mode: 'string' }).default('NULL'),
 	email: varchar({ length: 50 }).default('NULL'),
