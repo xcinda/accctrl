@@ -9,7 +9,7 @@ export default function UserList(props: { users: any[]; changeHandler: (arg0: an
             <table className="border w-full">
               <tbody>
                 {props.users.map((user, index) => (
-                  <tr className="border w-full h-10 text-center odd:bg-white/10 hover:bg-white/20"  key={index + "t"}><td key={index}><button onClick={() => props.changeHandler(user)}>{user.jmeno + " " + user.prijmeni}</button></td></tr>
+                  <tr className="border w-full h-10 text-center odd:bg-white/10 hover:bg-white/20"  key={index + "t"} onClick={() => props.changeHandler(user)}><td key={index}>{user.jmeno + " " + user.prijmeni}</td></tr>
                 ))}
               </tbody>
             </table>

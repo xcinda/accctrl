@@ -1,6 +1,15 @@
 import {useEffect,useState} from "react";
 import {GetRolesForUser} from "~/server/querys"
 
+export function UserRoleButton({passedRole}){
+  if (passedRole.datumVykonZruseni) {
+    return(<h1>zruseno</h1>)
+  } else {
+    return(<h1>nezruseno</h1>)
+  }
+}
+
+
 export default function UserRoleList(props: { user; }){
     const [userRole, setUserRole] = useState([]);
       useEffect(() => {
@@ -22,7 +31,9 @@ export default function UserRoleList(props: { user; }){
                 Přikázáno {role.datumPrikazZrizeni} uživatelem {role.loginPrikazZrizeni}<br/>
                 Přiděleno {role.datumVykonZrizeni} uživatelem {role.loginVykonZrizeni}<br/>
               </div>
-              <div className="flex flex-col"> <button>Přidělit přístup</button></div>
+              <div className="flex flex-col">
+                <UserRoleButton passedRole={role}/>
+              </div>
             </div>))
             }
           </div>)}
