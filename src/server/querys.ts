@@ -1,9 +1,14 @@
 'use server'
 
+import type { SQLWrapper } from "drizzle-orm";
 import { db } from "~/server/db";
+import { desc, asc } from 'drizzle-orm';
 
 export async function GetUsers(){
-    const users = await db.query.opLidi.findMany();
+    const users = await db.query.opLidi.findMany({
+	orderBy: (opLidi, { asc }) => [asc(opLidi.login)],
+});
+    console.log(users);
     return JSON.stringify(users);
 }
 
@@ -12,9 +17,10 @@ export async function GetAllRoles(){
     return JSON.stringify(role);
 }
 
-export async function GetRolesForUser(user){
+export async function GetRolesForUser(user: string | SQLWrapper){
   const userRole = await db.query.opHlavni.findMany({
     where: (userRole, { eq }) => eq(userRole.login, user),
+    orderBy: (opHlavni, { asc }) => [asc(opHlavni.idRole)],
 });
     return JSON.stringify(userRole);
 }
