@@ -3,7 +3,7 @@ import {useState} from "react";
 
 export default function UserList(props: { users: any[]; changeHandler: (arg0: any) => void; curUser: { jmeno: string; prijmeni: string; }}) {
     return(
-      <div className="h-full">
+      <div className="h-full flex flex-col">
         <div className="w-full text-center text-xl font-bold pb-4 pt-4">{props.curUser.jmeno + " " + props.curUser.prijmeni}</div>
           <div className="h-full w-full overflow-y-scroll p-0">
             <table className="border w-full">
