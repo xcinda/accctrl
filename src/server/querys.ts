@@ -6,7 +6,7 @@ import { desc, asc } from 'drizzle-orm';
 
 export async function GetUsers(){
     const users = await db.query.opLidi.findMany({
-	orderBy: (opLidi, { asc }) => [asc(opLidi.login)],
+	orderBy: (opLidi, { asc }) => [asc(opLidi.prijmeni)],
 });
     console.log(users);
     return JSON.stringify(users);
