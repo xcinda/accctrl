@@ -15,9 +15,9 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchData() {
-      const fetchedUserRole = await GetRolesForUser(user);
-      const fetchedRoles = await GetAllRoles();
-      const fetchedUsers = await GetUsers();
+      const fetchedUserRole = JSON.parse(await GetRolesForUser(user));
+      const fetchedRoles = JSON.parse(await GetAllRoles());
+      const fetchedUsers = JSON.parse(await GetUsers());
       setUserRole(fetchedUserRole);
       setRole(fetchedRoles);
       setUsers(fetchedUsers);
