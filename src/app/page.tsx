@@ -33,7 +33,7 @@ export default function HomePage() {
           </div>
         </div>
         <div id="PravySloupec" className="w-full h-full overflow-hidden flex flex-col">
-          <UserRoleList userRole={userRole} user={curUser}/>
+          <UserRoleList user={curUser}/>
           </div>
       </div>
   );

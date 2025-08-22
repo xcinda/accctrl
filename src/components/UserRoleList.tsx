@@ -1,7 +1,7 @@
 import {useEffect,useState} from "react";
 import {GetRolesForUser} from "~/server/querys"
 
-export default function UserRoleList(props: { userRole: any[]; user; }){
+export default function UserRoleList(props: { user; }){
     const [userRole, setUserRole] = useState([]);
       useEffect(() => {
         async function fetchData() {
@@ -19,7 +19,8 @@ export default function UserRoleList(props: { userRole: any[]; user; }){
             >
               <h3 className="text-2xl font-bold">{role.idRole}</h3>
               <div className="text-lg">
-                {role.datumVykonZrizeni}
+                Přikázáno {role.datumPrikazZrizeni} uživatelem {role.loginPrikazZrizeni}<br/>
+                Přiděleno {role.datumVykonZrizeni} uživatelem {role.loginVykonZrizeni}<br/>
               </div>
               <div className="flex flex-col"> <button>Přidělit přístup</button></div>
             </div>))
