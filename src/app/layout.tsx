@@ -14,6 +14,8 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+const username = "jcinybulk"
+
 function Header(){
 
   return(
@@ -22,7 +24,8 @@ function Header(){
       <div className="flex flex-row justify-between gap-4">
         <div>Přehled uživatelů</div>
         <div>Správa rolí</div>
-        <div>Admin</div>        
+        <div>Admin</div>
+        <div className="font-bold">{username}</div>        
       </div>
 
     </nav>
