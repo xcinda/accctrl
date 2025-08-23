@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { UserList,Selector,UserRoleList } from "~/components";
-import {GetUsers,GetAllRoles,GetRolesForUser} from "~/server/querys"
+import {GetUsers,GetAllRoles} from "~/server/querys"
 import{useEffect,useState} from "react";
 
 export default function HomePage() {
