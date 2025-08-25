@@ -25,88 +25,6 @@ import {
 } from "~/components/ui/form"
 
 
-const FormSchema = z.object({
-  login: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  jmeno: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  prijmeni: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  osobniCislo: z.number(),
-  aktivni: z.boolean()
-})
-
-const editFormItems = [
-  { id:"login",
-    label: "login"
-  },
-  { id:"jmeno",
-    label: "Jméno"
-  },
-  { id:"prijmeni",
-    label: "Přijmení"
-  },
-  { id:"osobniCislo",
-    label: "Osobní číslo"
-  }
-]
-
-export function InputForm({user}) {
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      login: user.login,
-      jmeno: user.jmeno,
-      prijmeni: user.prijmeni,
-      osobniCislo: user.osobniCislo,
-    },
-  })
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(user.aktivni + Boolean(user.aktivni));
-  }
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        {editFormItems.map((item) => (
-        <FormField
-          control={form.control}
-          name={item.id}
-          key={item.id}
-          render={({ field }) => (
-            <FormItem key={item.id}>
-              <FormLabel>{item.label}</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        ))}
-        
-          <FormField
-          control={form.control}
-          name="aktivni"
-          render={({ field }) => (
-            <FormItem key="aktivni">
-              <FormLabel>Aktivní</FormLabel>
-              <FormControl>
-                <Checkbox {...field} />
-              </FormControl>
-            </FormItem>)} />
-        
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
-  )
-}
-
 export function UserCell(props){
   function findNotifRole(){
       const checkRole = props.roleTable.find((element) => (element.datumVykonZrizeni == null && element.login == props.user.login) || (element.datumPrikazZruseni != null && element.datumVykonZruseni == null && element.login == props.user.login))
@@ -127,7 +45,7 @@ export default function UserList(props: { users: any[]; changeHandler: (arg0: an
         <Button variant="secondary">Editovat</Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <InputForm user={props.curUser}/>
+        tady jednou bude react hook form. Až budu mít motivaci zjistit jak funguje.
       </PopoverContent>
     </Popover></div>
           <div className="h-full w-full overflow-y-scroll p-0">
