@@ -8,8 +8,12 @@ import { Button } from "~/components/ui/button";
 export function UserRoleButton({passedRole}){
   if (passedRole.datumVykonZruseni) {
     return(<Button>Znovu přikázat</Button>)
-  } else {
+  } else if (passedRole.datumVykonZrizeni) {
     return(<Button variant="secondary">Přikázat zrušení</Button>)
+  } else if (passedRole.datumPrikazZruseni) {
+    return(<Button variant="secondary">Provést zrušení</Button>)
+  }else if (passedRole.datumPrikazZrizeni){
+    return(<Button variant="secondary">Provést zřízení</Button>)
   }
 }
 
