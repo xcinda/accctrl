@@ -77,6 +77,7 @@ export function InputForm({user}) {
         <FormField
           control={form.control}
           name={item.id}
+          key={item.id}
           render={({ field }) => (
             <FormItem key={item.id}>
               <FormLabel>{item.label}</FormLabel>
