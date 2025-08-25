@@ -19,7 +19,7 @@ export default function HomePage() {
       setUsers(fetchedUsers);
     }
 
-    fetchData();
+    void fetchData();
   }, []);
 
 

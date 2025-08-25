@@ -26,7 +26,7 @@ export default function UserRoleList(props: { user; }){
           setUserRole(fetchedUserRole);
         }
 
-        fetchData();
+        void fetchData();
       }, [props.user]);
     return(
           <div className="h-full flex flex-col gap-4 w-full items-center overflow-y-scroll">{
