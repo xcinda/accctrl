@@ -21,8 +21,7 @@ export default function HomePage() {
 
     fetchData();
   }, []);
-  
-  console.log(roleTable);
+
 
   return (
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10 gap-6">
