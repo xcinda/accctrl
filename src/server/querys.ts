@@ -7,8 +7,8 @@ import { opHlavni } from "drizzle/schema";
 
 export async function GetUsers(){
     const users = await db.query.opLidi.findMany({
-	orderBy: (opLidi, { asc }) => [asc(opLidi.prijmeni)],
-});
+        orderBy: (opLidi, { asc }) => [asc(opLidi.prijmeni)],
+    });
     return JSON.stringify(users);
 }
 

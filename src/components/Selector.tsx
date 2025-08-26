@@ -23,8 +23,7 @@ export default function Selector(props){
     props.changeHandler(newValue);
   };
 
-  const initialSelectedIndex = options.findIndex(({value}) => value === "bar");
-
+  const initialSelectedIndex = options.findIndex(({value}) => value === "vsichni");
   return (
     <div className="h-5/10 flex-1"><SwitchSelector
       onChange={onChange}

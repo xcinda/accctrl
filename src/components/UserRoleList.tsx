@@ -11,7 +11,6 @@ export function UserRoleButton({passedRole}){
   } else if (passedRole.datumVykonZrizeni && passedRole.datumPrikazZruseni == null) {
     return(<Button variant="secondary">Přikázat zrušení</Button>)
   } else if (passedRole.datumPrikazZruseni) {
-    console.log(passedRole);
     return(<Button variant="secondary">Provést zrušení</Button>)
   }else if (passedRole.datumPrikazZrizeni){
     return(<Button variant="secondary">Provést zřízení</Button>)
