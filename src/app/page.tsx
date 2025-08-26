@@ -1,12 +1,11 @@
 'use client'
 
-import Link from "next/link";
 import { UserList,Selector,UserRoleList } from "~/components";
-import {GetUsers,GetAllRoles, GetRoleTable} from "~/server/querys"
+import {GetUsers, GetRoleTable} from "~/server/querys"
 import{useEffect,useState} from "react";
 
 export default function HomePage() {
-  const [userRole, setUserRole] = useState([]);
+  const [selectorPos, setSelectorPos] = useState([]);
   const [roleTable, setRoleTable] = useState([]);
   const [users,setUsers] = useState([]);
   const [curUser,setCurUser] = useState({jmeno:"Vyberte",prijmeni:"uživatele",login:""});
@@ -29,8 +28,8 @@ export default function HomePage() {
           <div className="overflow-hidden flex-1">
             <UserList users={users} changeHandler={setCurUser} curUser={curUser} roleTable={roleTable}/>
           </div>
-          <div className="h-20 align-center">
-            <Selector/>
+          <div className="h-1/10 align-center flex flex-row items-center justify-center">
+            <Selector changeHandler={setSelectorPos}/>
           </div>
         </div>
         <div id="PravySloupec" className="w-full h-full overflow-hidden flex flex-col">

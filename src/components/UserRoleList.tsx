@@ -8,9 +8,10 @@ import { Button } from "~/components/ui/button";
 export function UserRoleButton({passedRole}){
   if (passedRole.datumVykonZruseni) {
     return(<Button>Znovu přikázat</Button>)
-  } else if (passedRole.datumVykonZrizeni) {
+  } else if (passedRole.datumVykonZrizeni && passedRole.datumPrikazZruseni == null) {
     return(<Button variant="secondary">Přikázat zrušení</Button>)
   } else if (passedRole.datumPrikazZruseni) {
+    console.log(passedRole);
     return(<Button variant="secondary">Provést zrušení</Button>)
   }else if (passedRole.datumPrikazZrizeni){
     return(<Button variant="secondary">Provést zřízení</Button>)
@@ -32,7 +33,7 @@ export default function UserRoleList(props: { user; }){
           <div className="h-full flex flex-col gap-4 w-full items-center overflow-y-scroll">{
             userRole.map((role,index) => (
             <div key={index}
-              className="flex flex-row justify-between items-center rounded-xl bg-white/10 p-4 text-white hover:bg-white/20 w-full"
+              className={"flex flex-row justify-between items-center rounded-xl bg-white/10 p-4 text-white hover:bg-white/20 w-full " + ((role.datumVykonZrizeni == null) || (role.datumPrikazZruseni != null && role.datumVykonZruseni == null) ? "border-2 border-red-500" : "")}
             >
               <div className="flex flex-col">
                 <h3 className="text-2xl font-bold">{role.idRole}</h3>

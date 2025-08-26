@@ -15,7 +15,6 @@ export function UserCell(props){
       return (checkRole != null)
   }
   const notifRole = findNotifRole();
-  console.log(notifRole);
   return(
     <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-red-600/50 hover:bg-red-600/80" : "odd:bg-white/10 hover:bg-white/20")}  key={props.index + "t"} onClick={() => props.changeHandler(props.user)}><td key={props.index}>{props.user.jmeno + " " + props.user.prijmeni}</td></tr>
   )
