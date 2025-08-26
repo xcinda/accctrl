@@ -5,15 +5,27 @@ import {GetRolesForUser} from "~/server/querys"
 import { Button } from "~/components/ui/button";
 
 
-export function UserRoleButton({passedRole}){
-  if (passedRole.datumVykonZruseni) {
+export function UserRoleButton({passedRole: passedEvent}){
+  if (passedEvent.datumVykonZruseni) {
     return(<Button>Znovu přikázat</Button>)
-  } else if (passedRole.datumVykonZrizeni && passedRole.datumPrikazZruseni == null) {
+  } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null) {
     return(<Button variant="secondary">Přikázat zrušení</Button>)
-  } else if (passedRole.datumPrikazZruseni) {
+  } else if (passedEvent.datumPrikazZruseni) {
     return(<Button variant="secondary">Provést zrušení</Button>)
-  }else if (passedRole.datumPrikazZrizeni){
+  }else if (passedEvent.datumPrikazZrizeni){
     return(<Button variant="secondary">Provést zřízení</Button>)
+  }
+}
+
+export function LastRoleEvent({passedEvent}){
+  if (passedEvent.datumVykonZruseni){
+    return(<p>Zrušeno {passedEvent.datumVykonZruseni} uživatelem {passedEvent.loginVykonZruseni}</p>)
+  }else if(passedEvent.datumPrikazZruseni){
+    return(<p>Nařízeno zrušení {passedEvent.datumPrikazZruseni} uživatelem {passedEvent.loginPrikazZruseni}</p>)
+  }else if(passedEvent.datumVykonZrizeni){
+    return(<p>Přiděleno {passedEvent.datumVykonZrizeni} uživatelem {passedEvent.loginVykonZrizeni}</p>)
+  }else{
+    return(<p>Nařízeno přidělení {passedEvent.datumPrikazZrizeni} uživatelem {passedEvent.loginPrikazZrizeni}</p>)
   }
 }
 
@@ -39,8 +51,7 @@ export default function UserRoleList(props: { user; }){
                 <p>Tady bude jednou popis role</p>
               </div>
               <div className="text-lg">
-                Přikázáno {role.datumPrikazZrizeni} uživatelem {role.loginPrikazZrizeni}<br/>
-                Přiděleno {role.datumVykonZrizeni} uživatelem {role.loginVykonZrizeni}<br/>
+                <LastRoleEvent passedEvent={role}/>
               </div>
               <div className="flex flex-col">
                 <UserRoleButton passedRole={role}/>
