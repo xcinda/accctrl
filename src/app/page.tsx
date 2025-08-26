@@ -35,14 +35,14 @@ export default function HomePage() {
       }else{
         setFilteredEmps(allEmps);
       }
-  },[selectorPos])
+  },[selectorPos,allEmps,eventTable])
 
 
   return (
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10 gap-6">
         <div id="LevySloupec" className="w-1/4 h-full overflow-hidden flex flex-col">
           <div className="overflow-hidden flex-1">
-            <UserList users={filteredEmps} changeHandler={setCurUser} curUser={curUser} roleTable={eventTable} selectorPos={selectorPos}/>
+            <UserList users={filteredEmps} changeHandler={setCurUser} curEmp={curUser} roleTable={eventTable} selectorPos={selectorPos}/>
           </div>
           <div className="h-1/10 align-center flex flex-row items-center justify-center">
             <Selector changeHandler={setSelectorPos}/>

@@ -3,6 +3,11 @@
 import {useEffect,useState} from "react";
 import {GetRolesForUser} from "~/server/querys"
 import { Button } from "~/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "~/components/ui/hover-card";
 
 
 export function UserRoleButton({passedRole: passedEvent}){
@@ -51,8 +56,24 @@ export default function UserRoleList(props: { user; }){
                 <p>Tady bude jednou popis role</p>
               </div>
               <div className="text-lg">
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <button><LastRoleEvent passedEvent={role} /></button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-auto">
+                      <div className="flex justify-between gap-4">
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-semibold">Historie událostí u role</h4>
+                          {role.datumPrikazZrizeni ? <p className="text-sm">Nařízeno přidělení <b>{role.datumPrikazZrizeni}</b> uživatelem <b>{role.loginPrikazZrizeni}</b></p> : ""}
+                          {role.datumVykonZrizeni ? <p className="text-sm">Přiděleno <b>{role.datumVykonZrizeni}</b> uživatelem <b>{role.loginVykonZrizeni}</b></p> : ""}
+                          {role.datumPrikazZruseni ? <p className="text-sm">Nařízeno zrušení <b>{role.datumPrikazZruseni}</b> uživatelem <b>{role.loginPrikazZruseni}</b></p> : ""}
+                          {role.datumVykonZruseni ? <p className="text-sm">Zrušeno <b>{role.datumVykonZruseni}</b> uživatelem <b>{role.loginVykonZruseni}</b></p> : ""}
 
-                <LastRoleEvent passedEvent={role}/>
+
+                        </div>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
               </div>
               <div className="flex flex-col">
                 <UserRoleButton passedRole={role}/>
