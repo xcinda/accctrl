@@ -5,7 +5,7 @@ import {GetUsers, GetRoleTable} from "~/server/querys"
 import{useEffect,useState} from "react";
 
 export default function HomePage() {
-  const [selectorPos, setSelectorPos] = useState("vsichni");
+  const [selectorPos, setSelectorPos] = useState("");
   const [eventTable, setEventTable] = useState([]);
   const [allEmps,setAllEmps] = useState([]);
   const [filteredEmps,setFilteredEmps] = useState([]);
@@ -17,24 +17,25 @@ export default function HomePage() {
       const fetchedUsers = JSON.parse(await GetUsers());
       setEventTable(fetchedEventTable);
       setAllEmps(fetchedUsers);
-      if (selectorPos == "vsichni"){
-        setFilteredEmps(fetchedUsers);
-      }else if (selectorPos == "aktivni"){
-        setFilteredEmps(fetchedUsers.filter((element)=> element.aktivni.data[0] == 1));
+    }
+    fetchData().then(() => setSelectorPos("vsichni"));
+  }, []);
+
+  useEffect(() => {
+      if (selectorPos == "aktivni"){
+        setFilteredEmps(allEmps.filter((element)=> element.aktivni.data[0] == 1));
       }else if (selectorPos == "notif"){
         var tempEmpList = []
-        fetchedUsers.forEach(element => {
-          if(fetchedEventTable.find((passedEmpEvent) => ((passedEmpEvent.login == element.login && passedEmpEvent.datumVykonZrizeni == null) || (passedEmpEvent.login == element.login && passedEmpEvent.datumPrikazZruseni != null && passedEmpEvent.datumVykonZruseni == null)))){
+        allEmps.forEach(element => {
+          if(eventTable.find((passedEmpEvent) => ((passedEmpEvent.login == element.login && passedEmpEvent.datumVykonZrizeni == null) || (passedEmpEvent.login == element.login && passedEmpEvent.datumPrikazZruseni != null && passedEmpEvent.datumVykonZruseni == null)))){
             tempEmpList.push(element)
           }
           setFilteredEmps(tempEmpList);
         });
+      }else{
+        setFilteredEmps(allEmps);
       }
-      
-    }
-
-    void fetchData();
-  }, [selectorPos]);
+  },[selectorPos])
 
 
   return (
