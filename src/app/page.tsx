@@ -4,28 +4,51 @@ import { UserList,Selector,UserRoleList } from "~/components";
 import {GetUsers, GetRoleTable} from "~/server/querys"
 import{useEffect,useState} from "react";
 
+
 export default function HomePage() {
   const [selectorPos, setSelectorPos] = useState("");
-  const [eventTable, setEventTable] = useState([]);
-  const [allEmps,setAllEmps] = useState([]);
-  const [filteredEmps,setFilteredEmps] = useState([]);
-  const [curUser,setCurUser] = useState({jmeno:"Vyberte",prijmeni:"uživatele",login:""});
+  const [eventTable, setEventTable] = useState<events[]>([]);
+  const [allEmps,setAllEmps] = useState<emps[]>([]);
+  const [filteredEmps,setFilteredEmps] = useState<emps[]>([]);
+  const [curUser,setCurUser] = useState<emps>({ email: "", jmeno:"Vyberte",prijmeni:"uživatele",login:""});
 
+  interface emps{
+    login:string;
+    jmeno:string;
+    prijmeni:string;
+    osobniCislo:number;
+    aktivni:number;
+    datumOdchod:Date;
+    email:string;
+  }
+  interface events{
+    cislo:number;
+    login:string;
+    idRole:string;
+    datumPrikazZrizeni:Date;
+    datumVykonZrizeni:Date;
+    datumPrikazZruseni:Date;
+    datumVykonZruseni:Date;
+    loginPrikazZrizeni:string;
+    loginVykonZrizeni:string;
+    loginPrikazZruseni:string;
+    loginVykonZruseni:string;
+  }
   useEffect(() => {
     async function fetchData() {
-      const fetchedEventTable = JSON.parse(await GetRoleTable());
-      const fetchedUsers = JSON.parse(await GetUsers());
+      const fetchedEventTable: events[] = JSON.parse(await GetRoleTable()) as events[];
+      const fetchedUsers: emps[] = JSON.parse(await GetUsers()) as emps[];
       setEventTable(fetchedEventTable);
       setAllEmps(fetchedUsers);
     }
-    fetchData().then(() => setSelectorPos("vsichni"));
+    fetchData().then(() => setSelectorPos("aktivni")).catch(e => console.log(e));
   }, []);
 
   useEffect(() => {
       if (selectorPos == "aktivni"){
         setFilteredEmps(allEmps.filter((element)=> element.aktivni.data[0] == 1));
       }else if (selectorPos == "notif"){
-        var tempEmpList = []
+        const tempEmpList: emps[] = []
         allEmps.forEach(element => {
           if(eventTable.find((passedEmpEvent) => ((passedEmpEvent.login == element.login && passedEmpEvent.datumVykonZrizeni == null) || (passedEmpEvent.login == element.login && passedEmpEvent.datumPrikazZruseni != null && passedEmpEvent.datumVykonZruseni == null)))){
             tempEmpList.push(element)

@@ -94,8 +94,6 @@ export default function UserRoleList(props: { user; }){
                           {role.datumVykonZrizeni ? <p className="text-sm">Přiděleno <b>{role.datumVykonZrizeni}</b> uživatelem <b>{role.loginVykonZrizeni}</b></p> : ""}
                           {role.datumPrikazZruseni ? <p className="text-sm">Nařízeno zrušení <b>{role.datumPrikazZruseni}</b> uživatelem <b>{role.loginPrikazZruseni}</b></p> : ""}
                           {role.datumVykonZruseni ? <p className="text-sm">Zrušeno <b>{role.datumVykonZruseni}</b> uživatelem <b>{role.loginVykonZruseni}</b></p> : ""}
-
-
                         </div>
                       </div>
                     </HoverCardContent>
