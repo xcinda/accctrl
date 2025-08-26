@@ -51,6 +51,7 @@ export default function UserRoleList(props: { user; }){
                 <p>Tady bude jednou popis role</p>
               </div>
               <div className="text-lg">
+
                 <LastRoleEvent passedEvent={role}/>
               </div>
               <div className="flex flex-col">
