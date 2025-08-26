@@ -10,15 +10,41 @@ import {
 } from "~/components/ui/hover-card";
 
 
-export function UserRoleButton({passedRole: passedEvent}){
+export function UserRoleButton({passedEvent}){
+  function znovuPrikazat(){
+    const newEvent = {
+      datumPrikazZrizeni: Date(),
+      datumPrikazZruseni: null,
+      datumVykonZrizeni:null,
+      datumVykonZruseni:null,
+      idRole: passedEvent.idRole,
+      login: passedEvent.login,
+      loginPrikazZrizeni: "TEST",
+      loginPrikazZruseni: null,
+      loginVykonZrizeni: null,
+      loginVykonZruseni: null
+    }
+    console.log(newEvent)
+  }
+  function provestZrizeni(){
+    console.log("Provést zřízení " + passedEvent.idRole + Date());
+  }
+  function prikazatZruseni(){
+    console.log("Přikázat zrušení " + passedEvent.idRole + Date());
+  }
+  function provestZruseni(){
+    console.log("Provést zrušení " + passedEvent.idRole + Date());
+  }
+
+
   if (passedEvent.datumVykonZruseni) {
-    return(<Button>Znovu přikázat</Button>)
+    return(<Button onClick={znovuPrikazat}>Znovu přikázat zřízení</Button>)
   } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null) {
-    return(<Button variant="secondary">Přikázat zrušení</Button>)
+    return(<Button onClick={prikazatZruseni}>Přikázat zrušení</Button>)
   } else if (passedEvent.datumPrikazZruseni) {
-    return(<Button variant="secondary">Provést zrušení</Button>)
+    return(<Button variant="secondary" onClick={provestZruseni}>Provést zrušení</Button>)
   }else if (passedEvent.datumPrikazZrizeni){
-    return(<Button variant="secondary">Provést zřízení</Button>)
+    return(<Button variant="secondary" onClick={provestZrizeni}>Provést zřízení</Button>)
   }
 }
 
@@ -76,7 +102,7 @@ export default function UserRoleList(props: { user; }){
                   </HoverCard>
               </div>
               <div className="flex flex-col">
-                <UserRoleButton passedRole={role}/>
+                <UserRoleButton passedEvent={role}/>
               </div>
             </div>))
             }

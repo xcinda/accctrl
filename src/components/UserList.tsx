@@ -23,18 +23,26 @@ export default function UserList(props: { users: any[]; changeHandler: (arg0: an
 
     return(
       <div className="h-full flex flex-col">
-        <div className="w-full text-center text-xl font-bold pb-4 pt-4 flex flex-row justify-around">{props.curEmp.jmeno + " "  + props.curEmp.prijmeni} <Popover>
+        <div className="w-full text-center text-xl font-bold pb-4 pt-4 flex flex-col justify-around gap-4">{props.curEmp.jmeno + " "  + props.curEmp.prijmeni} 
+      <Popover>
       <PopoverTrigger asChild>
         <Button variant="secondary">Editovat</Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        tady jednou bude react hook form. Až budu mít motivaci zjistit jak funguje.
+        tady jednou bude react hook form na úpravu uživatele. Až budu mít motivaci zjistit jak funguje.
       </PopoverContent>
     </Popover></div>
           <div className="h-full w-full overflow-y-scroll p-0">
             <table className="border w-full">
               <tbody>
-              <tr className="h-20 text-center bg-white/10 hover:bg-white/20"><th><button onClick={() => window.alert("hmmm,tady zatím nic")}>Přidat uživatele</button></th></tr>
+                <Popover>
+                <PopoverTrigger asChild>
+                <tr className="h-20 text-center bg-white/10 hover:bg-white/20"><th><button>Přidat uživatele</button></th></tr>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  tady jednou bude react hook form na nového uživatele. Až budu mít motivaci zjistit jak funguje.
+                </PopoverContent>
+                </Popover>
                 {props.users.map((emp, index) => (
                   <EmpCell changeHandler={props.changeHandler} emp={emp} key={index} roleTable={props.roleTable}/>
                 ))}
