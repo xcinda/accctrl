@@ -3,6 +3,7 @@
 import { UserList,Selector,UserRoleList } from "~/components";
 import {GetUsers, GetRoleTable} from "~/server/querys"
 import{useEffect,useState} from "react";
+import{GetHeaders} from "~/server/headers"
 
 
 export default function HomePage() {
@@ -11,6 +12,7 @@ export default function HomePage() {
   const [allEmps,setAllEmps] = useState<emps[]>([]);
   const [filteredEmps,setFilteredEmps] = useState<emps[]>([]);
   const [curUser,setCurUser] = useState<emps>({ email: "", jmeno:"Vyberte",prijmeni:"uživatele",login:""});
+  const [Headers,setHeaders] = useState<Headers>();
 
   interface emps{
     login:string;
@@ -38,8 +40,10 @@ export default function HomePage() {
     async function fetchData() {
       const fetchedEventTable: events[] = JSON.parse(await GetRoleTable()) as events[];
       const fetchedUsers: emps[] = JSON.parse(await GetUsers()) as emps[];
+      const fetchedHeaders = await GetHeaders();
       setEventTable(fetchedEventTable);
       setAllEmps(fetchedUsers);
+      setHeaders(fetchedHeaders);
     }
     fetchData().then(() => setSelectorPos("aktivni")).catch(e => console.log(e));
   }, []);
@@ -47,6 +51,7 @@ export default function HomePage() {
   useEffect(() => {
       if (selectorPos == "aktivni"){
         setFilteredEmps(allEmps.filter((element)=> element.aktivni.data[0] == 1));
+        console.log(Headers);
       }else if (selectorPos == "notif"){
         const tempEmpList: emps[] = []
         allEmps.forEach(element => {
@@ -65,6 +70,7 @@ export default function HomePage() {
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10 gap-6">
         <div id="LevySloupec" className="w-1/4 h-full overflow-hidden flex flex-col">
           <div className="overflow-hidden flex-1">
+            {}
             <UserList users={filteredEmps} changeHandler={setCurUser} curEmp={curUser} roleTable={eventTable} selectorPos={selectorPos}/>
           </div>
           <div className="h-1/10 align-center flex flex-row items-center justify-center">
