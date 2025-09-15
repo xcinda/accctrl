@@ -11,7 +11,7 @@ export default function HomePage() {
   const [eventTable, setEventTable] = useState<events[]>([]);
   const [allEmps,setAllEmps] = useState<emps[]>([]);
   const [filteredEmps,setFilteredEmps] = useState<emps[]>([]);
-  const [curUser,setCurUser] = useState<emps>({ email: "", jmeno:"Vyberte",prijmeni:"uživatele",login:""});
+  const [curEmp,setCurEmp] = useState<emps>({ email: "", jmeno:"Vyberte",prijmeni:"uživatele",login:""});
   const [Headers,setHeaders] = useState<Headers>();
 
   interface emps{
@@ -71,14 +71,14 @@ export default function HomePage() {
         <div id="LevySloupec" className="w-1/4 h-full overflow-hidden flex flex-col">
           <div className="overflow-hidden flex-1">
             {}
-            <UserList users={filteredEmps} changeHandler={setCurUser} curEmp={curUser} roleTable={eventTable} selectorPos={selectorPos}/>
+            <UserList users={filteredEmps} changeHandler={setCurEmp} curEmp={curEmp} roleTable={eventTable} selectorPos={selectorPos}/>
           </div>
           <div className="h-1/10 align-center flex flex-row items-center justify-center">
             <Selector changeHandler={setSelectorPos}/>
           </div>
         </div>
         <div id="PravySloupec" className="w-full h-full overflow-hidden flex flex-col">
-          <UserRoleList user={curUser}/>
+          <UserRoleList user={curEmp}/>
           </div>
       </div>
   );
