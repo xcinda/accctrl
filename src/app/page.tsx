@@ -12,7 +12,7 @@ export default function HomePage() {
   const [allEmps,setAllEmps] = useState<emps[]>([]);
   const [filteredEmps,setFilteredEmps] = useState<emps[]>([]);
   const [curEmp,setCurEmp] = useState<emps>({ email: "", jmeno:"Vyberte",prijmeni:"uživatele",login:""});
-  const [Headers,setHeaders] = useState<Headers>();
+  const [username,setUsername] = useState();
 
   interface emps{
     login:string;
@@ -38,12 +38,12 @@ export default function HomePage() {
   }
   useEffect(() => {
     async function fetchData() {
+      const fetchedUser = await(fetch("api/authUser").then((promise) => promise.json()));
       const fetchedEventTable: events[] = JSON.parse(await GetRoleTable()) as events[];
       const fetchedUsers: emps[] = JSON.parse(await GetUsers()) as emps[];
-      const fetchedHeaders = await GetHeaders();
       setEventTable(fetchedEventTable);
       setAllEmps(fetchedUsers);
-      setHeaders(fetchedHeaders);
+      setUsername(fetchedUser.username);
     }
     fetchData().then(() => setSelectorPos("aktivni")).catch(e => console.log(e));
   }, []);
@@ -51,7 +51,6 @@ export default function HomePage() {
   useEffect(() => {
       if (selectorPos == "aktivni"){
         setFilteredEmps(allEmps.filter((element)=> element.aktivni.data[0] == 1));
-        console.log(Headers);
       }else if (selectorPos == "notif"){
         const tempEmpList: emps[] = []
         allEmps.forEach(element => {
@@ -64,7 +63,6 @@ export default function HomePage() {
         setFilteredEmps(allEmps);
       }
   },[selectorPos,allEmps,eventTable])
-
 
   return (
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10 gap-6">
