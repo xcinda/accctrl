@@ -14,7 +14,6 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-const username = "jcinybulk"
 
 function Header(){
 
@@ -25,7 +24,7 @@ function Header(){
         <div>Přehled uživatelů</div>
         <div>Správa rolí</div>
         <div>Admin</div>
-        <div className="font-bold">{username}</div>        
+        <div className="font-bold"></div>        
       </div>
 
     </nav>
