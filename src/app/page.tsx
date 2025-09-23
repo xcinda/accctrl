@@ -3,7 +3,6 @@
 import { UserList,Selector,UserRoleList } from "~/components";
 import {GetUsers, GetRoleTable} from "~/server/querys"
 import{useEffect,useState} from "react";
-import{GetHeaders} from "~/server/headers"
 
 
 export default function HomePage() {
@@ -68,7 +67,6 @@ export default function HomePage() {
       <div className="flex flex-row justify-between h-full w-7/10 overflow-hidden pt-10 gap-6">
         <div id="LevySloupec" className="w-1/4 h-full overflow-hidden flex flex-col">
           <div className="overflow-hidden flex-1">
-            {}
             <UserList users={filteredEmps} changeHandler={setCurEmp} curEmp={curEmp} roleTable={eventTable} selectorPos={selectorPos}/>
           </div>
           <div className="h-1/10 align-center flex flex-row items-center justify-center">
@@ -76,7 +74,7 @@ export default function HomePage() {
           </div>
         </div>
         <div id="PravySloupec" className="w-full h-full overflow-hidden flex flex-col">
-          <UserRoleList user={curEmp}/>
+          <UserRoleList emp={curEmp} username={username}/>
           </div>
       </div>
   );

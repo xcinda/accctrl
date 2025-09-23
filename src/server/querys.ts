@@ -3,7 +3,6 @@
 import type { SQLWrapper } from "drizzle-orm";
 import { db } from "~/server/db";
 import { desc, asc, eq, and, isNull } from 'drizzle-orm';
-import { opHlavni } from "drizzle/schema";
 
 export async function GetUsers(){
     const users = await db.query.opLidi.findMany({
@@ -17,7 +16,7 @@ export async function GetAllRoles(){
     return JSON.stringify(role);
 }
 
-export async function GetRoleByName(userRole){
+export async function GetRoleByName(userRole: string){
     const role = await db.query.opRole.findMany({
         where: (role, { eq }) => eq(role.idRole, userRole)
 });
@@ -36,3 +35,11 @@ export async function GetRolesForUser(user: string | SQLWrapper){
 });
     return JSON.stringify(userRole);
 }
+
+export async function GetUserAdmin(username: string){
+    const admins = await db.query.opAdmin.findMany({
+        where: (userAdmin, { eq }) => eq(userAdmin.login, username)
+    });
+    return JSON.stringify(admins);
+}
+

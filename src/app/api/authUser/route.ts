@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) { 
 
   const username = req.headers.get('HTTP_X_REMOTE_USER');
-  console.log(req.headers)
   if (username) {
     const cleanUsername = username.split('\\').pop();
 

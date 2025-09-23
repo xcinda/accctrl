@@ -1,7 +1,7 @@
 'use client'
 
 import {useEffect,useState} from "react";
-import {GetRolesForUser} from "~/server/querys"
+import {GetRolesForUser, GetUserAdmin} from "~/server/querys"
 import { Button } from "~/components/ui/button";
 import {
   HoverCard,
@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/hover-card";
 
 
-export function UserRoleButton({passedEvent}){
+export function UserRoleButton({passedEvent,userAdmin}){
   function znovuPrikazat(){
     const newEvent = {
       datumPrikazZrizeni: Date(),
@@ -36,16 +36,24 @@ export function UserRoleButton({passedEvent}){
     console.log("Provést zrušení " + passedEvent.idRole + Date());
   }
 
+  const userPerms = userAdmin.find((element) => element.idRole == passedEvent.idRole);
 
-  if (passedEvent.datumVykonZruseni) {
-    return(<Button onClick={znovuPrikazat}>Znovu přikázat zřízení</Button>)
-  } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null) {
-    return(<Button onClick={prikazatZruseni}>Přikázat zrušení</Button>)
-  } else if (passedEvent.datumPrikazZruseni) {
-    return(<Button variant="secondary" onClick={provestZruseni}>Provést zrušení</Button>)
-  }else if (passedEvent.datumPrikazZrizeni){
-    return(<Button variant="secondary" onClick={provestZrizeni}>Provést zřízení</Button>)
+  if(userPerms){
+    if (passedEvent.datumVykonZruseni && userPerms.prikazce.data[0] == 1) {
+      return(<Button onClick={znovuPrikazat}>Znovu přikázat zřízení</Button>)
+    } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null && userPerms.prikazce.data[0] == 1) {
+      return(<Button onClick={prikazatZruseni}>Přikázat zrušení</Button>)
+    } else if (passedEvent.datumPrikazZruseni && passedEvent.datumVykonZruseni == null && userPerms.vykonavatel.data[0] == "1") {
+      return(<Button variant="secondary" onClick={provestZruseni}>Provést zrušení</Button>)
+    }else if (passedEvent.datumPrikazZrizeni && passedEvent.datumVykonZrizeni == null && userPerms.vykonavatel.data[0] == "1"){
+      return(<Button variant="secondary" onClick={provestZrizeni}>Provést zřízení</Button>)
+    }else{
+      return(<div>Nemáte oprávnění k provedení akce</div>)
+    }
+  }else{
+    return(<div>Nemáte oprávnění k provedení akce</div>)
   }
+
 }
 
 export function LastRoleEvent({passedEvent}){
@@ -61,25 +69,28 @@ export function LastRoleEvent({passedEvent}){
 }
 
 
-export default function UserRoleList(props: { user; }){
-    const [userRole, setUserRole] = useState([]);
+export default function UserRoleList(props: { emp;username }){
+    const [empRole, setEmpRole] = useState([]);
+    const [userAdmin, setUserAdmin] = useState([]);
       useEffect(() => {
         async function fetchData() {
-          const fetchedUserRole = JSON.parse(await GetRolesForUser(props.user.login));
-          setUserRole(fetchedUserRole);
+          const fetchedEmpRole = JSON.parse(await GetRolesForUser(props.emp.login));
+          const fetchedUserAdmin = JSON.parse(await GetUserAdmin(props.username));
+          setUserAdmin(fetchedUserAdmin);
+          setEmpRole(fetchedEmpRole);
         }
 
         void fetchData();
-      }, [props.user]);
+      }, [props.emp]);
     return(
           <div className="h-full flex flex-col gap-4 w-full items-center overflow-y-scroll">{
-            userRole.map((role,index) => (
+            empRole.map((role,index) => (
             <div key={index}
               className={"flex flex-row justify-between items-center rounded-xl bg-white/10 p-4 text-white hover:bg-white/20 w-full " + ((role.datumVykonZrizeni == null) || (role.datumPrikazZruseni != null && role.datumVykonZruseni == null) ? "border-2 border-red-500" : "")}
             >
               <div className="flex flex-col">
                 <h3 className="text-2xl font-bold">{role.idRole}</h3>
-                <p>Tady bude jednou popis role</p>
+                <p></p>
               </div>
               <div className="text-lg">
                   <HoverCard>
@@ -100,7 +111,7 @@ export default function UserRoleList(props: { user; }){
                   </HoverCard>
               </div>
               <div className="flex flex-col">
-                <UserRoleButton passedEvent={role}/>
+                <UserRoleButton passedEvent={role} userAdmin={userAdmin}/>
               </div>
             </div>))
             }

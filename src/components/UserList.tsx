@@ -14,16 +14,40 @@ export function EmpCell(props){
       return (checkRole != null)
   }
   const notifRole = findNotifRole();
+  if (props.emp.aktivni.data[0] == 0){
+    return(
+    <tr className="border w-full h-10 text-center bg-gray-950 hover:bg-gray-800"  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+  )} 
+  else if (props.emp.datumOdchod) {
+    return(
+    <tr className="border w-full h-10 text-center bg-red-600/50 hover:bg-red-600/80"  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+  )}
+  else{
   return(
-    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-red-600/50 hover:bg-red-600/80" : "odd:bg-white/10 hover:bg-white/20")}  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
-  )
+    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+  )}
 }
+
+export function EmpSelected({curEmp}){
+  if (curEmp.datumOdchod) {
+    return(
+      <div>{curEmp.jmeno + " "  + curEmp.prijmeni}<br/> {curEmp.datumOdchod}</div>)
+    
+  }
+  else{
+    return(
+      <div>{curEmp.jmeno + " " + curEmp.prijmeni}</div>
+    )
+  }
+}
+
+
 
 export default function UserList(props: { users: any[]; changeHandler: (arg0: any) => void; curEmp: { jmeno: string; prijmeni: string; };roleTable}) {
 
     return(
       <div className="h-full flex flex-col">
-        <div className="w-full text-center text-xl font-bold pb-4 pt-4 flex flex-col justify-around gap-4">{props.curEmp.jmeno + " "  + props.curEmp.prijmeni} 
+        <div className="w-full text-center text-xl font-bold pb-4 pt-4 flex flex-col justify-around gap-4"><EmpSelected curEmp={props.curEmp}/>
       <Popover>
       <PopoverTrigger asChild>
         <Button variant="secondary">Editovat</Button>
