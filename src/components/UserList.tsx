@@ -5,30 +5,35 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "~/components/ui/popover"
+} from "~/components/ui/popover";
+import * as schema from "~/server/db/schema";
+import type { InferSelectModel } from "drizzle-orm";
 
+type emps = InferSelectModel<typeof schema.opLidi>;
+type events = InferSelectModel<typeof schema.opHlavni>;
+type admins = InferSelectModel<typeof schema.opAdmin>;
 
-export function EmpCell(props){
+export function EmpCell({changeHandler,emp,key,eventTable}: {changeHandler:any, emp:emps, key:number, eventTable: events[]}){
   function findNotifRole(){
-      const checkRole = props.roleTable.find((element) => (element.datumVykonZrizeni == null && element.login == props.emp.login) || (element.datumPrikazZruseni != null && element.datumVykonZruseni == null && element.login == props.emp.login))
+      const checkRole = eventTable.find((element) => (element.datumVykonZrizeni == null && element.login == emp.login) || (element.datumPrikazZruseni != null && element.datumVykonZruseni == null && element.login == emp.login))
       return (checkRole != null)
   }
   const notifRole = findNotifRole();
-  if (props.emp.aktivni.data[0] == 0){
+  if (emp.aktivni.data[0] == 0){
     return(
-    <tr className="border w-full h-10 text-center bg-gray-950 hover:bg-gray-800"  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+    <tr className="border w-full h-10 text-center bg-gray-950 hover:bg-gray-800"  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )} 
-  else if (props.emp.datumOdchod) {
+  else if (emp.datumOdchod) {
     return(
-    <tr className="border w-full h-10 text-center bg-red-600/50 hover:bg-red-600/80"  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+    <tr className="border w-full h-10 text-center bg-red-600/50 hover:bg-red-600/80"  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )}
   else{
   return(
-    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  key={props.index + "t"} onClick={() => props.changeHandler(props.emp)}><td key={props.index}>{props.emp.jmeno + " " + props.emp.prijmeni}</td></tr>
+    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )}
 }
 
-export function EmpSelected({curEmp}){
+export function EmpSelected({curEmp}: {curEmp: emps}){
   if (curEmp.datumOdchod) {
     return(
       <div>{curEmp.jmeno + " "  + curEmp.prijmeni}<br/> {curEmp.datumOdchod}</div>)
@@ -43,7 +48,7 @@ export function EmpSelected({curEmp}){
 
 
 
-export default function UserList(props: { users: any[]; changeHandler: (arg0: any) => void; curEmp: { jmeno: string; prijmeni: string; };roleTable}) {
+export default function UserList(props: { users: any[]; changeHandler: (arg0: any) => void; curEmp: emps;eventTable: events[]; selectorPos: string}) {
 
     return(
       <div className="h-full flex flex-col">
@@ -68,7 +73,7 @@ export default function UserList(props: { users: any[]; changeHandler: (arg0: an
                 </PopoverContent>
                 </Popover>
                 {props.users.map((emp, index) => (
-                  <EmpCell changeHandler={props.changeHandler} emp={emp} key={index} roleTable={props.roleTable}/>
+                  <EmpCell changeHandler={props.changeHandler} emp={emp} key={index} eventTable={props.eventTable}/>
                 ))}
               </tbody>
             </table>

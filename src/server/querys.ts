@@ -28,7 +28,7 @@ export async function GetRoleTable(){
     return JSON.stringify(roleTable);
 }
 
-export async function GetRolesForUser(user: string | SQLWrapper){
+export async function GetEventsForUser(user: string | SQLWrapper){
   const userRole = await db.query.opHlavni.findMany({
     where: (userRole, { eq }) => eq(userRole.login, user),
     orderBy: (opHlavni, { asc }) => [asc(opHlavni.idRole)],

@@ -1,16 +1,21 @@
 'use client'
 
 import {useEffect,useState} from "react";
-import {GetRolesForUser, GetUserAdmin} from "~/server/querys"
+import {GetEventsForUser, GetUserAdmin} from "~/server/querys"
 import { Button } from "~/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "~/components/ui/hover-card";
+import * as schema from "~/server/db/schema";
+import type { InferSelectModel } from "drizzle-orm";
 
+type emps = InferSelectModel<typeof schema.opLidi>;
+type events = InferSelectModel<typeof schema.opHlavni>;
+type admins = InferSelectModel<typeof schema.opAdmin>;
 
-export function UserRoleButton({passedEvent,userAdmin}){
+export function UserRoleButton({passedEvent,userAdmin}: {passedEvent: events, userAdmin: admins[]}){
   function znovuPrikazat(){
     const newEvent = {
       datumPrikazZrizeni: Date(),
@@ -36,7 +41,7 @@ export function UserRoleButton({passedEvent,userAdmin}){
     console.log("Provést zrušení " + passedEvent.idRole + Date());
   }
 
-  const userPerms = userAdmin.find((element) => element.idRole == passedEvent.idRole);
+  const userPerms = userAdmin.find((element:admins) => element.idRole == passedEvent.idRole);
 
   if(userPerms){
     if (passedEvent.datumVykonZruseni && userPerms.prikazce.data[0] == 1) {
@@ -56,7 +61,7 @@ export function UserRoleButton({passedEvent,userAdmin}){
 
 }
 
-export function LastRoleEvent({passedEvent}){
+export function LastRoleEvent({passedEvent}: {passedEvent: events}){
   if (passedEvent.datumVykonZruseni){
     return(<p>Zrušeno {passedEvent.datumVykonZruseni} uživatelem {passedEvent.loginVykonZruseni}</p>)
   }else if(passedEvent.datumPrikazZruseni){
@@ -69,49 +74,49 @@ export function LastRoleEvent({passedEvent}){
 }
 
 
-export default function UserRoleList(props: { emp;username }){
-    const [empRole, setEmpRole] = useState([]);
-    const [userAdmin, setUserAdmin] = useState([]);
+export default function UserEventList(props: { emp: emps ;username: string }){
+    const [empEvents, setEmpEvents] = useState<events[]>([]);
+    const [userAdmin, setUserAdmin] = useState<admins[]>([]);
       useEffect(() => {
         async function fetchData() {
-          const fetchedEmpRole = JSON.parse(await GetRolesForUser(props.emp.login));
+          const fetchedEmpEvents = JSON.parse(await GetEventsForUser(props.emp.login));
           const fetchedUserAdmin = JSON.parse(await GetUserAdmin(props.username));
           setUserAdmin(fetchedUserAdmin);
-          setEmpRole(fetchedEmpRole);
+          setEmpEvents(fetchedEmpEvents);
         }
 
         void fetchData();
       }, [props.emp]);
     return(
           <div className="h-full flex flex-col gap-4 w-full items-center overflow-y-scroll">{
-            empRole.map((role,index) => (
+            empEvents.map((event,index) => (
             <div key={index}
-              className={"flex flex-row justify-between items-center rounded-xl bg-white/10 p-4 text-white hover:bg-white/20 w-full " + ((role.datumVykonZrizeni == null) || (role.datumPrikazZruseni != null && role.datumVykonZruseni == null) ? "border-2 border-red-500" : "")}
+              className={"flex flex-row justify-between items-center rounded-xl bg-white/10 p-4 text-white hover:bg-white/20 w-full " + ((event.datumVykonZrizeni == null) || (event.datumPrikazZruseni != null && event.datumVykonZruseni == null) ? "border-2 border-red-500" : "")}
             >
               <div className="flex flex-col">
-                <h3 className="text-2xl font-bold">{role.idRole}</h3>
+                <h3 className="text-2xl font-bold">{event.idRole}</h3>
                 <p></p>
               </div>
               <div className="text-lg">
                   <HoverCard>
                     <HoverCardTrigger asChild>
-                      <button><LastRoleEvent passedEvent={role} /></button>
+                      <button><LastRoleEvent passedEvent={event} /></button>
                     </HoverCardTrigger>
                     <HoverCardContent className="w-auto">
                       <div className="flex justify-between gap-4">
                         <div className="space-y-1">
                           <h4 className="text-sm font-semibold">Historie událostí u role</h4>
-                          {role.datumPrikazZrizeni ? <p className="text-sm">Nařízeno přidělení <b>{role.datumPrikazZrizeni}</b> uživatelem <b>{role.loginPrikazZrizeni}</b></p> : ""}
-                          {role.datumVykonZrizeni ? <p className="text-sm">Přiděleno <b>{role.datumVykonZrizeni}</b> uživatelem <b>{role.loginVykonZrizeni}</b></p> : ""}
-                          {role.datumPrikazZruseni ? <p className="text-sm">Nařízeno zrušení <b>{role.datumPrikazZruseni}</b> uživatelem <b>{role.loginPrikazZruseni}</b></p> : ""}
-                          {role.datumVykonZruseni ? <p className="text-sm">Zrušeno <b>{role.datumVykonZruseni}</b> uživatelem <b>{role.loginVykonZruseni}</b></p> : ""}
+                          {event.datumPrikazZrizeni ? <p className="text-sm">Nařízeno přidělení <b>{event.datumPrikazZrizeni}</b> uživatelem <b>{event.loginPrikazZrizeni}</b></p> : ""}
+                          {event.datumVykonZrizeni ? <p className="text-sm">Přiděleno <b>{event.datumVykonZrizeni}</b> uživatelem <b>{event.loginVykonZrizeni}</b></p> : ""}
+                          {event.datumPrikazZruseni ? <p className="text-sm">Nařízeno zrušení <b>{event.datumPrikazZruseni}</b> uživatelem <b>{event.loginPrikazZruseni}</b></p> : ""}
+                          {event.datumVykonZruseni ? <p className="text-sm">Zrušeno <b>{event.datumVykonZruseni}</b> uživatelem <b>{event.loginVykonZruseni}</b></p> : ""}
                         </div>
                       </div>
                     </HoverCardContent>
                   </HoverCard>
               </div>
               <div className="flex flex-col">
-                <UserRoleButton passedEvent={role} userAdmin={userAdmin}/>
+                <UserRoleButton passedEvent={event} userAdmin={userAdmin}/>
               </div>
             </div>))
             }

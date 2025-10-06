@@ -60,7 +60,7 @@ export const opLidi = mysqlTable("op_lidi", {
 	login: varchar({ length: 50 }).notNull(),
 	jmeno: varchar({ length: 50 }).notNull(),
 	prijmeni: varchar({ length: 50 }).notNull(),
-	aktivni: int(),
+	aktivni: int().notNull(),
 	osobniCislo: int("osobni_cislo").default(sql`NULL`),
 	datumOdchod: timestamp("datum_odchod", { mode: 'string' }).default('NULL'),
 	email: varchar({ length: 50 }).default('NULL'),
