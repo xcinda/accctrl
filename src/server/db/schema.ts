@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import { integer } from "drizzle-orm/gel-core";
 import { boolean, index, int, mysqlTable, mysqlTableCreator, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { booleanBit } from "./customTypes"
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -23,8 +24,8 @@ export const opAdmin = mysqlTable("op_admin", {
 	cislo: int().autoincrement().notNull(),
 	login: varchar({ length: 50 }).default('NULL').references(() => opLidi.login),
 	idRole: varchar("id_role", { length: 50 }).default('NULL').references(() => opRole.idRole),
-	prikazce: int().default(0),
-	vykonavatel: int().default(0)
+	prikazce: booleanBit().default(false),
+	vykonavatel: booleanBit().default(false)
 },
 (table) => [
 	index("Cislo").on(table.cislo),
@@ -60,7 +61,7 @@ export const opLidi = mysqlTable("op_lidi", {
 	login: varchar({ length: 50 }).notNull(),
 	jmeno: varchar({ length: 50 }).notNull(),
 	prijmeni: varchar({ length: 50 }).notNull(),
-	aktivni: int().notNull(),
+	aktivni: booleanBit().notNull(),
 	osobniCislo: int("osobni_cislo").default(sql`NULL`),
 	datumOdchod: timestamp("datum_odchod", { mode: 'string' }).default('NULL'),
 	email: varchar({ length: 50 }).default('NULL'),

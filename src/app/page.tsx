@@ -14,7 +14,7 @@ export default function HomePage() {
   const [eventTable, setEventTable] = useState<events[]>([]);
   const [allEmps,setAllEmps] = useState<emps[]>([]);
   const [filteredEmps,setFilteredEmps] = useState<emps[]>([]);
-  const [curEmp,setCurEmp] = useState<emps>({ email: null, jmeno:"Vyberte",prijmeni:"uživatele",login:"",aktivni:1,osobniCislo:null,datumOdchod:null});
+  const [curEmp,setCurEmp] = useState<emps>({ email: null, jmeno:"Vyberte",prijmeni:"uživatele",login:"",aktivni:true,osobniCislo:null,datumOdchod:null});
   const [username,setUsername] = useState<string>("");
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function HomePage() {
 
   useEffect(() => {
       if (selectorPos == "aktivni"){
-        setFilteredEmps(allEmps.filter((filterEmp)=> filterEmp.aktivni.data[0] == 1));
+        setFilteredEmps(allEmps.filter((filterEmp)=> filterEmp.aktivni == true));
       }else if (selectorPos == "notif"){
         const tempEmpList: emps[] = []
         allEmps.forEach(element => {

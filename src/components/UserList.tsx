@@ -13,23 +13,23 @@ type emps = InferSelectModel<typeof schema.opLidi>;
 type events = InferSelectModel<typeof schema.opHlavni>;
 type admins = InferSelectModel<typeof schema.opAdmin>;
 
-export function EmpCell({changeHandler,emp,key,eventTable}: {changeHandler:any, emp:emps, key:number, eventTable: events[]}){
+export function EmpCell({changeHandler,emp,eventTable}: {changeHandler:any, emp:emps,  eventTable: events[]}){
   function findNotifRole(){
       const checkRole = eventTable.find((element) => (element.datumVykonZrizeni == null && element.login == emp.login) || (element.datumPrikazZruseni != null && element.datumVykonZruseni == null && element.login == emp.login))
       return (checkRole != null)
   }
   const notifRole = findNotifRole();
-  if (emp.aktivni.data[0] == 0){
+  if (!emp.aktivni){
     return(
-    <tr className="border w-full h-10 text-center bg-gray-950 hover:bg-gray-800"  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
+    <tr className="border w-full h-10 text-center bg-gray-950 hover:bg-gray-800"  onClick={() => changeHandler(emp)}><td>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )} 
   else if (emp.datumOdchod) {
     return(
-    <tr className="border w-full h-10 text-center bg-red-600/50 hover:bg-red-600/80"  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
+    <tr className="border w-full h-10 text-center bg-red-600/50 hover:bg-red-600/80"  onClick={() => changeHandler(emp)}><td>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )}
   else{
   return(
-    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  key={key + "t"} onClick={() => changeHandler(emp)}><td key={key}>{emp.jmeno + " " + emp.prijmeni}</td></tr>
+    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  onClick={() => changeHandler(emp)}><td>{emp.jmeno + " " + emp.prijmeni}</td></tr>
   )}
 }
 

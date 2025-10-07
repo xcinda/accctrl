@@ -44,13 +44,13 @@ export function UserRoleButton({passedEvent,userAdmin}: {passedEvent: events, us
   const userPerms = userAdmin.find((element:admins) => element.idRole == passedEvent.idRole);
 
   if(userPerms){
-    if (passedEvent.datumVykonZruseni && userPerms.prikazce.data[0] == 1) {
+    if (passedEvent.datumVykonZruseni && userPerms.prikazce) {
       return(<Button onClick={znovuPrikazat}>Znovu přikázat zřízení</Button>)
-    } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null && userPerms.prikazce.data[0] == 1) {
+    } else if (passedEvent.datumVykonZrizeni && passedEvent.datumPrikazZruseni == null && userPerms.prikazce) {
       return(<Button onClick={prikazatZruseni}>Přikázat zrušení</Button>)
-    } else if (passedEvent.datumPrikazZruseni && passedEvent.datumVykonZruseni == null && userPerms.vykonavatel.data[0] == "1") {
+    } else if (passedEvent.datumPrikazZruseni && passedEvent.datumVykonZruseni == null && userPerms.vykonavatel) {
       return(<Button variant="secondary" onClick={provestZruseni}>Provést zrušení</Button>)
-    }else if (passedEvent.datumPrikazZrizeni && passedEvent.datumVykonZrizeni == null && userPerms.vykonavatel.data[0] == "1"){
+    }else if (passedEvent.datumPrikazZrizeni && passedEvent.datumVykonZrizeni == null && userPerms.vykonavatel){
       return(<Button variant="secondary" onClick={provestZrizeni}>Provést zřízení</Button>)
     }else{
       return(<div>Nemáte oprávnění k provedení akce</div>)
