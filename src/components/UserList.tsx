@@ -29,7 +29,7 @@ export function EmpCell({changeHandler,emp,eventTable}: {changeHandler:any, emp:
   )}
   else{
   return(
-    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  onClick={() => changeHandler(emp)}><td>{emp.jmeno + " " + emp.prijmeni}</td></tr>
+    <tr className={"border w-full h-10 text-center "+ (notifRole ? "bg-amber-300/50 hover:bg-amber-300/80" : "odd:bg-white/10 hover:bg-white/20")}  onClick={() => changeHandler(emp)}><td>{emp.prijmeni + " " + emp.jmeno}</td></tr>
   )}
 }
 
